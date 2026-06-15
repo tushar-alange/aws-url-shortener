@@ -1,0 +1,50 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1 - Download your code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2 - Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      # Step 3 - Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      # Step 4 - Package Lambda function
+      - name: Package Lambda function
+        run: |
+          zip -r lambda.zip lambda_function.py
+
+      # Step 5 - Deploy to AWS Lambda
+      - name: Deploy to Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name urlShortener \
+            --zip-file fileb://lambda.zip \
+            --region ap-south-1
+
+      # Step 6 - Verify deployment
+      - name: Verify deployment
+        run: |
+          aws lambda get-function \
+            --function-name urlShortener \
+            --region ap-south-1 \
+            --query 'Configuration.LastModified'
