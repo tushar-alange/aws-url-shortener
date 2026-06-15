@@ -9,19 +9,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ap-south-1
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Check secrets exist
+        env:
+          KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          SECRET: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          echo "Key length: ${#AWS_ACCESS_KEY_ID}"
-          echo "Secret length: ${#AWS_SECRET_ACCESS_KEY}"
+          echo "Key length: ${#KEY_ID}"
+          echo "Secret length: ${#SECRET}"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -29,18 +27,23 @@ jobs:
           python-version: '3.12'
 
       - name: Install AWS CLI
-        run: |
-          pip install awscli
+        run: pip install awscli
 
       - name: Verify AWS credentials
-        run: |
-          aws sts get-caller-identity
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
+        run: aws sts get-caller-identity
 
       - name: Package Lambda function
-        run: |
-          zip -r lambda.zip lambda_function.py
+        run: zip -r lambda.zip lambda_function.py
 
       - name: Deploy to Lambda
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
         run: |
           aws lambda update-function-code \
             --function-name urlShortener \
@@ -48,6 +51,10 @@ jobs:
             --region ap-south-1
 
       - name: Verify deployment
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
         run: |
           aws lambda get-function \
             --function-name urlShortener \
