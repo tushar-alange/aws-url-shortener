@@ -16,6 +16,27 @@ User → API Gateway → Lambda (Python) → DynamoDB
                          S3 Static Dashboard
 ```
 
+## Architecture
+
+![Architecture](screenshots/architecture.png)
+
+## AWS Lambda
+
+![Lambda](screenshots/lambda.png)
+
+## API Gateway
+
+![API Gateway](screenshots/api-gateway.png)
+
+## Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+## CI/CD Pipeline
+
+![GitHub Actions](screenshots/github-actions.png)
+
+
 ## 🛠️ AWS Services Used
 
 | Service | Purpose |
