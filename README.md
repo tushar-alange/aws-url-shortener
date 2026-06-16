@@ -5,7 +5,13 @@ A fully serverless URL shortener with real-time analytics dashboard, built on AW
 🌐 **Live Demo:** [Open Dashboard](http://url-shortener-dashboard.s3-website.ap-south-1.amazonaws.com/index.html)
 
 ---
+## Blog Post
 
+Read the full development journey here:
+
+[Building a Serverless URL Shortener on AWS](https://dev.to/tusharalange/i-built-a-serverless-url-shortener-on-aws-4mp6)
+
+---
 ## ⚙️ Architecture
 
 ```
