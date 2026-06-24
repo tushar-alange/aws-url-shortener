@@ -2,7 +2,7 @@
 
 A fully serverless URL shortener with real-time analytics dashboard, built on AWS.
 
-🌐 **Live Demo:** [Open Dashboard](http://url-shortener-dashboard.s3-website.ap-south-1.amazonaws.com/index.html)
+🌐 **Live Demo:** [Open Dashboard](https://dzrtckn81qqqh.cloudfront.net/)
 
 ---
 ## Blog Post
